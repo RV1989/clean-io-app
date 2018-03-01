@@ -1,4 +1,4 @@
-# clean-io-app
+# clean-io-app [![Build Status](https://travis-ci.org/RV1989/clean-io-app.svg?branch=master)](https://travis-ci.org/RV1989/clean-io-app) [![Build status](https://ci.appveyor.com/api/projects/status/vkb2q7ah46yyc3h2?svg=true)](https://ci.appveyor.com/project/RV1989/clean-io-app)
 
 > clean up io list for tia portal
 
