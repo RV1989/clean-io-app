@@ -8,7 +8,8 @@
       
     <v-card class= "mx-auto"  width = "300px" >
       <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">VSV Logistics IO V0.1.2</div>
+                      <div class="headline text-xs-center">VSV Logistics IO</div>
+                      <div> V{{appVersion}}</div>
                     </v-card-title>
         <v-card-text>
     
@@ -43,7 +44,7 @@
   export default {
     data: function(){
       return{
-        timer:''
+         appVersion : this.$electron.remote.app.getVersion()
       }
     },
     mounted: function(){
