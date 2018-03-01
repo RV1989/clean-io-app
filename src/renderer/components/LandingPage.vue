@@ -8,7 +8,7 @@
       
     <v-card class= "mx-auto"  width = "300px" >
       <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">VSV Logistics IO</div>
+                      <div class="headline text-xs-center">VSV Logistics IO V0.1.2</div>
                     </v-card-title>
         <v-card-text>
     
