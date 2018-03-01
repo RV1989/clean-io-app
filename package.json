@@ -1,6 +1,6 @@
 {
   "name": "clean-io-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "RV1989",
   "description": "clean up io list for tia portal",
   "license": null,
@@ -59,6 +59,8 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.6",
     "@fortawesome/vue-fontawesome": "0.0.22",
     "axios": "^0.16.1",
+    "electron-log": "^2.2.14",
+    "electron-updater": "^2.20.1",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
     "vue": "^2.3.3",
