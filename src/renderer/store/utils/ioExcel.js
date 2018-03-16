@@ -64,7 +64,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/Therm/gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " Thermal";
       obj.changed = true;
@@ -73,7 +73,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " MainSwitch";
       obj.changed = true;
@@ -82,7 +82,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/Frein/gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " Brake";
       obj.changed = true;
@@ -92,7 +92,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/Therm/gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " Thermal";
       obj.changed = true;
@@ -102,7 +102,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/Frein/gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " Brake";
       obj.changed = true;
@@ -112,7 +112,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " MainSwitch";
       obj.changed = true;
@@ -162,6 +162,31 @@ const changeText = function(obj) {
       obj.text = "RC " + objNr.join("-") + " Estop";
       obj.changed = true;
     }
+
+    //Dummy Thermal
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Therm/gi) &&
+      (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
+    ) {
+      let dummyNumberRegex = /(?:\/)(\d*)/gi;  
+      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " Thermal";
+
+      obj.changed = true;
+    }
+        //Dummy mainSwitch
+        if (
+          textToChange.match(/Conv/gi) &&
+          textToChange.match(/I\.M\.|IM /gi) &&
+          (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
+        ) {
+          let dummyNumberRegex = /(?:\/)(\d*)/gi;
+          let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+          obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " MainSwitch";
+    
+          obj.changed = true;
+        }
   }
   if (objPup) {
     // xpup push button
@@ -244,7 +269,7 @@ const readExcel = function(dir) {
     let ioSheet = ioXl.Sheets[sheet];
     var range = xlsx.utils.decode_range(ioSheet["!ref"]);
     let ioMaxRows = range.e.r;
-    for (let row = 3; row < ioMaxRows+2; row++) {
+    for (let row = 3; row < ioMaxRows + 2; row++) {
       let cellIo = ioSheet["C" + row];
       let cellText = ioSheet["E" + row];
       let cellArmoire = ioSheet["A" + row];
@@ -305,7 +330,7 @@ const writeIo = function(filename, data, tagTable) {
     let cellTagTable = { t: "s", v: tagTable };
     ws["B" + (index + 2)] = cellTagTable;
     // DataType
-    let cellDataType = { t: "s", v: 'BOOL' };
+    let cellDataType = { t: "s", v: "BOOL" };
     ws["C" + (index + 2)] = cellDataType;
     //Adress
     let cellAddress = { t: "s", v: io.io };
@@ -314,19 +339,17 @@ const writeIo = function(filename, data, tagTable) {
     let cellComment = { t: "s", v: io.comment };
     ws["E" + (index + 2)] = cellComment;
 
-    // hmi 
-    ws["F" + (index + 2)] = { t: "s", v: 'TRUE' };
-    ws["G" + (index + 2)] = { t: "s", v: 'TRUE' };
-    ws["H" + (index + 2)] = { t: "s", v: 'TRUE' };
-
-
+    // hmi
+    ws["F" + (index + 2)] = { t: "s", v: "TRUE" };
+    ws["G" + (index + 2)] = { t: "s", v: "TRUE" };
+    ws["H" + (index + 2)] = { t: "s", v: "TRUE" };
   });
-  ws["!ref"] = "A1:J"+(data.length +1);
+  ws["!ref"] = "A1:J" + (data.length + 1);
 
   xlsx.utils.book_append_sheet(wb, ws, ws_name);
 
   xlsx.writeFileAsync(filename, wb, () => {
-    alert(filename +' saved')
+    alert(filename + " saved");
   });
 };
 

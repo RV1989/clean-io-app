@@ -120,6 +120,27 @@ describe('changeText', () => {
         let obj = {}
         obj.text = 'KLAXON XPUP5410/32/01'
         expect(changeText(obj).text).to.equal('Xpup5410/32/01 Horn')
+    }),
+    it('should return Dummy thermal ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/3'
+        expect(changeText(obj).text).to.equal('Dummy 39120-3 Thermal')
+    })
+    it('should return Dummy thermal 2 ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/2'
+        expect(changeText(obj).text).to.equal('Dummy 39120-2 Thermal')
+    })
+    it('should return Dummy thermal 10 ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/10'
+        expect(changeText(obj).text).to.equal('Dummy 39120-10 Thermal')
+    })
+
+    it('should return Dummy MainSwitch ', () => {
+        let obj = {}
+        obj.text = 'I.M. CONVOYEUR 39120/3'
+        expect(changeText(obj).text).to.equal('Dummy 39120-3 MainSwitch')
     })
 
 
