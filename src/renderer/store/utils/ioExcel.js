@@ -169,24 +169,79 @@ const changeText = function(obj) {
       textToChange.match(/Therm/gi) &&
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
-      let dummyNumberRegex = /(?:\/)(\d*)/gi;  
+      let dummyNumberRegex = /(?:\/)(\d*)/gi;
       let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
       obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " Thermal";
 
       obj.changed = true;
     }
-        //Dummy mainSwitch
-        if (
-          textToChange.match(/Conv/gi) &&
-          textToChange.match(/I\.M\.|IM /gi) &&
-          (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
-        ) {
-          let dummyNumberRegex = /(?:\/)(\d*)/gi;
-          let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
-          obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " MainSwitch";
-    
-          obj.changed = true;
-        }
+    //Dummy mainSwitch
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/I\.M\.|IM /gi) &&
+      (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
+    ) {
+      let dummyNumberRegex = /(?:\/)(\d*)/gi;
+      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " MainSwitch";
+
+      obj.changed = true;
+    }
+    //Lift thermal
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Therm|Alim/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Thermal";
+
+      obj.changed = true;
+    }
+
+    //Lift mainSwitch
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/^I\.M\.|^IM /gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " MainSwitch";
+
+      obj.changed = true;
+    }
+
+    //Lift brake
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/frein /gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Brake";
+
+      obj.changed = true;
+    }
+
+    //Lift limit switch down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/secu/gi) &&
+      textToChange.match(/bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " limit switch down";
+
+      obj.changed = true;
+    }
+    //Lift limit switch up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/secu/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " limit switch up";
+
+      obj.changed = true;
+    }
   }
   if (objPup) {
     // xpup push button

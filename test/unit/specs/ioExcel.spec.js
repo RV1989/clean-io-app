@@ -143,5 +143,39 @@ describe('changeText', () => {
         expect(changeText(obj).text).to.equal('Dummy 39120-3 MainSwitch')
     })
 
+    it('should return Lift MainSwitch ', () => {
+        let obj = {}
+        obj.text = 'IM Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 MainSwitch')
+    })
+
+    it('should return Lift Thermal ', () => {
+        let obj = {}
+        obj.text = 'defaut thermique Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Thermal')
+    })
+    it('should return Lift Thermal alim ', () => {
+        let obj = {}
+        obj.text = 'Alim Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Thermal')
+    })
+
+    it('should return Lift Brake ', () => {
+        let obj = {}
+        obj.text = 'Frein Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Brake')
+    })
+
+    it('should return Lift limit switch down ', () => {
+        let obj = {}
+        obj.text = 'Securite Bas Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 limit switch down')
+    })
+
+    it('should return Lift limit switch up ', () => {
+        let obj = {}
+        obj.text = 'Securite Haut Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 limit switch up')
+    })
 
   })
