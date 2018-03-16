@@ -64,7 +64,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/Therm/gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " Thermal";
       obj.changed = true;
@@ -73,7 +73,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " MainSwitch";
       obj.changed = true;
@@ -82,7 +82,7 @@ const changeText = function(obj) {
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/Frein/gi) &&
-      (textToChange.match(/\/1/gi) || !textToChange.match(/\//gi))
+      (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
       obj.text = "RC " + objNr.join("-") + " Brake";
       obj.changed = true;
@@ -92,7 +92,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/Therm/gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " Thermal";
       obj.changed = true;
@@ -102,7 +102,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/Frein/gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " Brake";
       obj.changed = true;
@@ -112,7 +112,7 @@ const changeText = function(obj) {
       textToChange.match(/Table/gi) &&
       textToChange.match(/Rota/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
-      textToChange.match(/\/2/gi)
+      textToChange.match(/\/2\s|\/2$/gi)
     ) {
       obj.text = "Turn " + objNr.join("-") + " MainSwitch";
       obj.changed = true;
@@ -160,6 +160,131 @@ const changeText = function(obj) {
       textToChange.match(/Urg/gi)
     ) {
       obj.text = "RC " + objNr.join("-") + " Estop";
+      obj.changed = true;
+    }
+
+    //Dummy Thermal
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Therm/gi) &&
+      (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
+    ) {
+      let dummyNumberRegex = /(?:\/)(\d*)/gi;
+      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " Thermal";
+
+      obj.changed = true;
+    }
+    //Dummy mainSwitch
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/I\.M\.|IM /gi) &&
+      (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
+    ) {
+      let dummyNumberRegex = /(?:\/)(\d*)/gi;
+      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " MainSwitch";
+
+      obj.changed = true;
+    }
+    //Lift thermal
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Therm|Alim/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Thermal";
+
+      obj.changed = true;
+    }
+
+    //Lift mainSwitch
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/^I\.M\.|^IM /gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " MainSwitch";
+
+      obj.changed = true;
+    }
+
+    //Lift brake
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/frein /gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Brake";
+
+      obj.changed = true;
+    }
+
+    //Lift limit switch down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/secu/gi) &&
+      textToChange.match(/bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " limit switch down";
+
+      obj.changed = true;
+    }
+    //Lift limit switch up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/secu/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " limit switch up";
+
+      obj.changed = true;
+    }
+
+    //Lift Detection Up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection up";
+
+      obj.changed = true;
+    }
+    //Lift Detection down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection down";
+
+      obj.changed = true;
+    }
+    //Lift Detection slow down Up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Ralen/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection slow down up";
+
+      obj.changed = true;
+    }
+    //Lift Detection slow down down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Ralen/gi) &&
+      textToChange.match(/Bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection slow down down";
+
       obj.changed = true;
     }
   }
@@ -244,7 +369,7 @@ const readExcel = function(dir) {
     let ioSheet = ioXl.Sheets[sheet];
     var range = xlsx.utils.decode_range(ioSheet["!ref"]);
     let ioMaxRows = range.e.r;
-    for (let row = 3; row < ioMaxRows+2; row++) {
+    for (let row = 3; row < ioMaxRows + 2; row++) {
       let cellIo = ioSheet["C" + row];
       let cellText = ioSheet["E" + row];
       let cellArmoire = ioSheet["A" + row];
@@ -305,7 +430,7 @@ const writeIo = function(filename, data, tagTable) {
     let cellTagTable = { t: "s", v: tagTable };
     ws["B" + (index + 2)] = cellTagTable;
     // DataType
-    let cellDataType = { t: "s", v: 'BOOL' };
+    let cellDataType = { t: "s", v: "BOOL" };
     ws["C" + (index + 2)] = cellDataType;
     //Adress
     let cellAddress = { t: "s", v: io.io };
@@ -314,19 +439,17 @@ const writeIo = function(filename, data, tagTable) {
     let cellComment = { t: "s", v: io.comment };
     ws["E" + (index + 2)] = cellComment;
 
-    // hmi 
-    ws["F" + (index + 2)] = { t: "s", v: 'TRUE' };
-    ws["G" + (index + 2)] = { t: "s", v: 'TRUE' };
-    ws["H" + (index + 2)] = { t: "s", v: 'TRUE' };
-
-
+    // hmi
+    ws["F" + (index + 2)] = { t: "s", v: "TRUE" };
+    ws["G" + (index + 2)] = { t: "s", v: "TRUE" };
+    ws["H" + (index + 2)] = { t: "s", v: "TRUE" };
   });
-  ws["!ref"] = "A1:J"+(data.length +1);
+  ws["!ref"] = "A1:J" + (data.length + 1);
 
   xlsx.utils.book_append_sheet(wb, ws, ws_name);
 
   xlsx.writeFileAsync(filename, wb, () => {
-    alert(filename +' saved')
+    alert(filename + " saved");
   });
 };
 

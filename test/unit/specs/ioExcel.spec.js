@@ -120,7 +120,86 @@ describe('changeText', () => {
         let obj = {}
         obj.text = 'KLAXON XPUP5410/32/01'
         expect(changeText(obj).text).to.equal('Xpup5410/32/01 Horn')
+    }),
+    it('should return Dummy thermal ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/3'
+        expect(changeText(obj).text).to.equal('Dummy 39120-3 Thermal')
+    })
+    it('should return Dummy thermal 2 ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/2'
+        expect(changeText(obj).text).to.equal('Dummy 39120-2 Thermal')
+    })
+    it('should return Dummy thermal 10 ', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE CONVOYEUR 39120/10'
+        expect(changeText(obj).text).to.equal('Dummy 39120-10 Thermal')
     })
 
+    it('should return Dummy MainSwitch ', () => {
+        let obj = {}
+        obj.text = 'I.M. CONVOYEUR 39120/3'
+        expect(changeText(obj).text).to.equal('Dummy 39120-3 MainSwitch')
+    })
+
+    it('should return Lift MainSwitch ', () => {
+        let obj = {}
+        obj.text = 'IM Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 MainSwitch')
+    })
+
+    it('should return Lift Thermal ', () => {
+        let obj = {}
+        obj.text = 'defaut thermique Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Thermal')
+    })
+    it('should return Lift Thermal alim ', () => {
+        let obj = {}
+        obj.text = 'Alim Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Thermal')
+    })
+
+    it('should return Lift Brake ', () => {
+        let obj = {}
+        obj.text = 'Frein Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 Brake')
+    })
+
+    it('should return Lift limit switch down ', () => {
+        let obj = {}
+        obj.text = 'Securite Bas Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 limit switch down')
+    })
+
+    it('should return Lift limit switch up ', () => {
+        let obj = {}
+        obj.text = 'Securite Haut Elevateur 39120/2'
+        expect(changeText(obj).text).to.equal('Lift 39120 limit switch up')
+    })
+
+    it('should return Lift Position up ', () => {
+        let obj = {}
+        obj.text = 'POSITION HAUT ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection up')
+    })
+
+    it('should return Lift slow down up ', () => {
+        let obj = {}
+        obj.text = 'RALENTI HAUT ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection slow down up')
+    })
+
+    it('should return Lift Position down ', () => {
+        let obj = {}
+        obj.text = 'POSITION BAS ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection down')
+    })
+
+    it('should return Lift slow down down ', () => {
+        let obj = {}
+        obj.text = 'RALENTI BAS ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection slow down down')
+    })
 
   })
