@@ -178,4 +178,28 @@ describe('changeText', () => {
         expect(changeText(obj).text).to.equal('Lift 39120 limit switch up')
     })
 
+    it('should return Lift Position up ', () => {
+        let obj = {}
+        obj.text = 'POSITION HAUT ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection up')
+    })
+
+    it('should return Lift slow down up ', () => {
+        let obj = {}
+        obj.text = 'RALENTI HAUT ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection slow down up')
+    })
+
+    it('should return Lift Position down ', () => {
+        let obj = {}
+        obj.text = 'POSITION BAS ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection down')
+    })
+
+    it('should return Lift slow down down ', () => {
+        let obj = {}
+        obj.text = 'RALENTI BAS ELEVATEUR 39201/2'
+        expect(changeText(obj).text).to.equal('Lift 39201 Detection slow down down')
+    })
+
   })

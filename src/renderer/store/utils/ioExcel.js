@@ -242,6 +242,51 @@ const changeText = function(obj) {
 
       obj.changed = true;
     }
+
+    //Lift Detection Up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection up";
+
+      obj.changed = true;
+    }
+    //Lift Detection down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection down";
+
+      obj.changed = true;
+    }
+    //Lift Detection slow down Up
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Ralen/gi) &&
+      textToChange.match(/haut/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection slow down up";
+
+      obj.changed = true;
+    }
+    //Lift Detection slow down down
+    if (
+      textToChange.match(/Elev/gi) &&
+      textToChange.match(/Ralen/gi) &&
+      textToChange.match(/Bas/gi) &&
+      textToChange.match(/\/2\s|\/2$/gi)
+    ) {
+      obj.text = "Lift " + objNr.join("-") + " Detection slow down down";
+
+      obj.changed = true;
+    }
   }
   if (objPup) {
     // xpup push button
