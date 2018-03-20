@@ -202,4 +202,10 @@ describe('changeText', () => {
         expect(changeText(obj).text).to.equal('Lift 39201 Detection slow down down')
     })
 
+    it('should return RC clock up ', () => {
+        let obj = {}
+        obj.text = 'STOP 1ERE PALETTE CONVOYEUR 40402'
+        expect(changeText(obj).text).to.equal('RC 40402 Clock-up=0')
+    })
+
   })

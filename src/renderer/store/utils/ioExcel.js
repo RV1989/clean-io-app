@@ -40,6 +40,12 @@ const changeText = function(obj) {
       obj.text = "RC " + objNr.join("-") + " Stop backwards=0";
       obj.changed = true;
     }
+    // RC Stop backwards
+    if (textToChange.match(/Stop/gi) && textToChange.match(/1ERE/gi) && textToChange.match(/PAL/gi) ) {
+      obj.text = "RC " + objNr.join("-") + " Clock-up=0";
+      obj.changed = true;
+    }
+
     // RC clearance forwards
     if (
       textToChange.match(/Debor/gi) &&
