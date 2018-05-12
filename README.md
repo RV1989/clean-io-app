@@ -2,6 +2,15 @@
 
 > clean up io list for tia portal
 
+Takes an eplan excel export for io and creates a tia portal io tag table.
+
+    Features: 
+          * Formats all CAPS eplan comment to Auto Cap.
+          * Adds component reference to tia comments so you can see wich cabinet what fuse etc.
+          * Custom IO tag table name
+          * Custom functio to change io names.
+
+
 #### Build Setup
 
 ``` bash
