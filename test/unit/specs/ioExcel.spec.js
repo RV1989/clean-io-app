@@ -239,4 +239,16 @@ describe('changeText', () => {
         expect(changeText(obj).text).to.equal('Hoist 02081-3 MainSwitch')
     })
 
+    it('should return Hoist movement up', () => {
+        let obj = {}
+        obj.text = 'MONTER ROULEAU CONVOYEUR 02020/2'
+        expect(changeText(obj).text).to.equal('Hoist 02020-2 Movement up')
+    })
+
+    it('should return Hoist movement up', () => {
+        let obj = {}
+        obj.text = 'DESCENDRE ROULEAU CONVOYEUR 02020/2'
+        expect(changeText(obj).text).to.equal('Hoist 02020-2 Movement down')
+    })
+
 })

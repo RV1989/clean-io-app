@@ -301,9 +301,9 @@ const changeText = function (obj) {
       textToChange.match(/Desc/gi) &&
       textToChange.match(/Therm/gi)
     ) {
-      let idRegex = /(\d{5})(?:\/)(\d*)/;
+      let idRegex = /(\d{5})(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[2];
-   
+
       obj.text = "Hoist " + objNr.join("-") + "-" + id + " Thermal";
 
       obj.changed = true;
@@ -345,6 +345,34 @@ const changeText = function (obj) {
       let idRegex = /(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[1];
       obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection down";
+
+      obj.changed = true;
+    }
+
+    //Hoist movement up
+    if (
+      textToChange.match(/Conv/gi) &&
+      !textToChange.match(/Pos/gi) &&
+      textToChange.match(/mont/gi) &&
+      !textToChange.match(/desc/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement up";
+
+      obj.changed = true;
+    }
+
+    //Hoist movement down
+    if (
+      textToChange.match(/Conv/gi) &&
+      !textToChange.match(/Pos/gi) &&
+      !textToChange.match(/mont/gi) &&
+      textToChange.match(/desc/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement down";
 
       obj.changed = true;
     }
