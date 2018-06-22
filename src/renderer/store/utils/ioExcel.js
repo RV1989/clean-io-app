@@ -8,8 +8,8 @@ const ioPath = "IO Connect Rework";
 
 //*****************************************************************************
 
-const autoCase = function(text) {
-  return text.replace(/(&)?([a-z])([a-z]{2,})(;)?/gi, function(
+const autoCase = function (text) {
+  return text.replace(/(&)?([a-z])([a-z]{2,})(;)?/gi, function (
     all,
     prefix,
     letter,
@@ -24,7 +24,7 @@ const autoCase = function(text) {
   });
 };
 
-const changeText = function(obj) {
+const changeText = function (obj) {
   obj.text = autoCase(obj.text);
   let textToChange = obj.text;
   let objNr = textToChange.match(/[a-z]*\d{5}[a-z0-9_-]*/gi);
@@ -41,7 +41,7 @@ const changeText = function(obj) {
       obj.changed = true;
     }
     // RC Stop backwards
-    if (textToChange.match(/Stop/gi) && textToChange.match(/1ERE/gi) && textToChange.match(/PAL/gi) ) {
+    if (textToChange.match(/Stop/gi) && textToChange.match(/1ERE/gi) && textToChange.match(/PAL/gi)) {
       obj.text = "RC " + objNr.join("-") + " Clock-up=0";
       obj.changed = true;
     }
@@ -171,7 +171,7 @@ const changeText = function(obj) {
 
     //Dummy Thermal
     if (
-      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Conv/gi) && !textToChange.match(/Mont/gi) && !textToChange.match(/Desc/gi) &&
       textToChange.match(/Therm/gi) &&
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
@@ -183,7 +183,7 @@ const changeText = function(obj) {
     }
     //Dummy mainSwitch
     if (
-      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Conv/gi) && !textToChange.match(/Mond/gi) && !textToChange.match(/Desc/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
@@ -293,6 +293,91 @@ const changeText = function(obj) {
 
       obj.changed = true;
     }
+
+    //Hoist Thermal
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Mont/gi) &&
+      textToChange.match(/Desc/gi) &&
+      textToChange.match(/Therm/gi)
+    ) {
+      let idRegex = /(\d{5})(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[2];
+
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Thermal";
+
+      obj.changed = true;
+    }
+    //Hoist mainSwitch
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Mont/gi) &&
+      textToChange.match(/Desc/gi) &&
+      textToChange.match(/I\.M\.|IM /gi)
+
+    ) {
+      let idRegex = /(\d{5})(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[2];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " MainSwitch";
+
+      obj.changed = true;
+    }
+
+    //Hoist detection up
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/haut/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection up";
+
+      obj.changed = true;
+    }
+
+    //Hoist detection down
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Pos/gi) &&
+      textToChange.match(/bas/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection down";
+
+      obj.changed = true;
+    }
+
+    //Hoist movement up
+    if (
+      textToChange.match(/Conv/gi) &&
+      !textToChange.match(/Pos/gi) &&
+      textToChange.match(/mont/gi) &&
+      !textToChange.match(/desc/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement up";
+
+      obj.changed = true;
+    }
+
+    //Hoist movement down
+    if (
+      textToChange.match(/Conv/gi) &&
+      !textToChange.match(/Pos/gi) &&
+      !textToChange.match(/mont/gi) &&
+      textToChange.match(/desc/gi)
+    ) {
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement down";
+
+      obj.changed = true;
+    }
+
+
   }
   if (objPup) {
     // xpup push button
@@ -361,13 +446,14 @@ const changeText = function(obj) {
       obj.text = objPup + " Estop";
       obj.changed = true;
     }
+
   }
 
   //console.log(obj)
   return obj;
 };
 
-const readExcel = function(dir) {
+const readExcel = function (dir) {
   const ioXl = xlsx.readFile(dir.toString());
   let ioList = [];
   let sheets = ioXl.SheetNames;
@@ -409,7 +495,7 @@ const readExcel = function(dir) {
   return ioList;
 };
 
-const writeIo = function(filename, data, tagTable) {
+const writeIo = function (filename, data, tagTable) {
   let heading = [
     [
       "Name",
@@ -427,28 +513,54 @@ const writeIo = function(filename, data, tagTable) {
   var ws_name = "PLC Tags";
   var wb = xlsx.utils.book_new();
   /* convert an array of arrays in JS to a CSF spreadsheet */
-  let ws = xlsx.utils.aoa_to_sheet(heading, { cellDates: true });
+  let ws = xlsx.utils.aoa_to_sheet(heading, {
+    cellDates: true
+  });
   data.forEach((io, index) => {
     // tag name
-    let cellTag = { t: "s", v: io.text };
+    let cellTag = {
+      t: "s",
+      v: io.text
+    };
     ws["A" + (index + 2)] = cellTag;
     // Tagtable
-    let cellTagTable = { t: "s", v: tagTable };
+    let cellTagTable = {
+      t: "s",
+      v: tagTable
+    };
     ws["B" + (index + 2)] = cellTagTable;
     // DataType
-    let cellDataType = { t: "s", v: "BOOL" };
+    let cellDataType = {
+      t: "s",
+      v: "BOOL"
+    };
     ws["C" + (index + 2)] = cellDataType;
     //Adress
-    let cellAddress = { t: "s", v: io.io };
+    let cellAddress = {
+      t: "s",
+      v: io.io
+    };
     ws["D" + (index + 2)] = cellAddress;
     //Comment
-    let cellComment = { t: "s", v: io.comment };
+    let cellComment = {
+      t: "s",
+      v: io.comment
+    };
     ws["E" + (index + 2)] = cellComment;
 
     // hmi
-    ws["F" + (index + 2)] = { t: "s", v: "TRUE" };
-    ws["G" + (index + 2)] = { t: "s", v: "TRUE" };
-    ws["H" + (index + 2)] = { t: "s", v: "TRUE" };
+    ws["F" + (index + 2)] = {
+      t: "s",
+      v: "TRUE"
+    };
+    ws["G" + (index + 2)] = {
+      t: "s",
+      v: "TRUE"
+    };
+    ws["H" + (index + 2)] = {
+      t: "s",
+      v: "TRUE"
+    };
   });
   ws["!ref"] = "A1:J" + (data.length + 1);
 
@@ -459,4 +571,8 @@ const writeIo = function(filename, data, tagTable) {
   });
 };
 
-export { readExcel, changeText, writeIo };
+export {
+  readExcel,
+  changeText,
+  writeIo
+};
