@@ -171,7 +171,7 @@ const changeText = function (obj) {
 
     //Dummy Thermal
     if (
-      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Conv/gi) && !textToChange.match(/Mont/gi) && !textToChange.match(/Desc/gi) &&
       textToChange.match(/Therm/gi) &&
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
@@ -183,7 +183,7 @@ const changeText = function (obj) {
     }
     //Dummy mainSwitch
     if (
-      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Conv/gi) && !textToChange.match(/Mond/gi) && !textToChange.match(/Desc/gi) &&
       textToChange.match(/I\.M\.|IM /gi) &&
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
@@ -294,14 +294,44 @@ const changeText = function (obj) {
       obj.changed = true;
     }
 
+    //Hoist Thermal
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Mont/gi) &&
+      textToChange.match(/Desc/gi) &&
+      textToChange.match(/Therm/gi)
+    ) {
+      let idRegex = /(\d{5})(?:\/)(\d*)/;
+      let id = idRegex.exec(textToChange)[2];
+   
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Thermal";
+
+      obj.changed = true;
+    }
+    //Hoist mainSwitch
+    if (
+      textToChange.match(/Conv/gi) &&
+      textToChange.match(/Mont/gi) &&
+      textToChange.match(/Desc/gi) &&
+      textToChange.match(/I\.M\.|IM /gi)
+
+    ) {
+      let idRegex = /(\d{5})(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[2];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " MainSwitch";
+
+      obj.changed = true;
+    }
+
     //Hoist detection up
     if (
       textToChange.match(/Conv/gi) &&
       textToChange.match(/Pos/gi) &&
       textToChange.match(/haut/gi)
     ) {
-      var id = textToChange.match(/\/\d*/gi)
-      obj.text = "Hoist " + objNr.join("-") + id + " Detection up";
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection up";
 
       obj.changed = true;
     }
@@ -312,8 +342,9 @@ const changeText = function (obj) {
       textToChange.match(/Pos/gi) &&
       textToChange.match(/bas/gi)
     ) {
-      var id = textToChange.match(/\/\d*/gi)
-      obj.text = "Hoist " + objNr.join("-") + id + " Detection down";
+      let idRegex = /(?:\/)(\d*)/gi;
+      let id = idRegex.exec(textToChange)[1];
+      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection down";
 
       obj.changed = true;
     }

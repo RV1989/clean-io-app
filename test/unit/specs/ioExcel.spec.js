@@ -212,20 +212,31 @@ describe('changeText', () => {
     it('should return Hoist detection up', () => {
         let obj = {}
         obj.text = 'Position Haute Rouleau Convoyeur 02121/2'
-        expect(changeText(obj).text).to.equal('Hoist 02121/2 Detection up')
+        expect(changeText(obj).text).to.equal('Hoist 02121-2 Detection up')
     })
 
     it('should return Hoist detection up', () => {
         let obj = {}
         obj.text = 'Position Haute Rouleau Convoyeur 02121/1'
-        expect(changeText(obj).text).to.equal('Hoist 02121/1 Detection up')
+        expect(changeText(obj).text).to.equal('Hoist 02121-1 Detection up')
     })
 
 
     it('should return Hoist detection down', () => {
         let obj = {}
         obj.text = 'Position Basse Rouleau Convoyeur 02121/1'
-        expect(changeText(obj).text).to.equal('Hoist 02121/1 Detection down')
+        expect(changeText(obj).text).to.equal('Hoist 02121-1 Detection down')
+    })
+
+    it('should return Hoist thermal', () => {
+        let obj = {}
+        obj.text = 'DEFAUT THERMIQUE MONTER / DESCENDRE ROULEAU CONVOYEUR 02081/3'
+        expect(changeText(obj).text).to.equal('Hoist 02081-3 Thermal')
+    })
+    it('should return Hoist mainswitch', () => {
+        let obj = {}
+        obj.text = 'IM MONTER / DESCENDRE ROULEAU CONVOYEUR 02081/3'
+        expect(changeText(obj).text).to.equal('Hoist 02081-3 MainSwitch')
     })
 
 })
