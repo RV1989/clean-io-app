@@ -9,25 +9,30 @@ const ioPath = "IO Connect Rework";
 
 //*****************************************************************************
 
-
 const changeText = function (obj) {
+
   let textToChange = obj.text;
+  obj.text = _.camelCase(obj.text) 
   let objNr = textToChange.match(/[a-z]*\d{5}[a-z0-9_-]*/gi);
   let objPup = textToChange.match(/Xpup[a-z0-9/_-]*\S/gi);
+  if (objPup){
+    objPup[0] = objPup[0].toLowerCase()
+  }
+  
   if (objNr) {
     // RC Stop forward
     if (textToChange.match(/Stop pal/gi) && !textToChange.match(/Arri/gi)) {
-      obj.text = "RC " + objNr.join("-") + " Stop forwards=0";
+      obj.text = "rc" + objNr.join("-") + "StopForwards";
       obj.changed = true;
     }
     // RC Stop backwards
     if (textToChange.match(/Stop pal/gi) && textToChange.match(/Arri/gi)) {
-      obj.text = "RC " + objNr.join("-") + " Stop backwards=0";
+      obj.text = "rc" + objNr.join("-") + "StopBackwards";
       obj.changed = true;
     }
     // RC Stop backwards
     if (textToChange.match(/Stop/gi) && textToChange.match(/1ERE/gi) && textToChange.match(/PAL/gi)) {
-      obj.text = "RC " + objNr.join("-") + " Clock-up=0";
+      obj.text = "rc" + objNr.join("-") + "ClockUp";
       obj.changed = true;
     }
 
@@ -37,7 +42,7 @@ const changeText = function (obj) {
       !textToChange.match(/Arri/gi) &&
       !textToChange.match(/ctrl/gi)
     ) {
-      obj.text = "RC " + objNr.join("-") + " Clearance forwards";
+      obj.text = "rc" + objNr.join("-") + "ClearanceForwards";
       obj.changed = true;
     }
 
@@ -47,7 +52,7 @@ const changeText = function (obj) {
       textToChange.match(/Arri/gi) &&
       !textToChange.match(/ctrl/gi)
     ) {
-      obj.text = "RC " + objNr.join("-") + " Clearance backwards";
+      obj.text = "rc" + objNr.join("-") + "ClearanceBackwards";
       obj.changed = true;
     }
 
@@ -57,7 +62,7 @@ const changeText = function (obj) {
       textToChange.match(/Therm/gi) &&
       (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
-      obj.text = "RC " + objNr.join("-") + " Thermal";
+      obj.text = "rc" + objNr.join("-") + "Thermal";
       obj.changed = true;
     }
     // RC MainSwitch
@@ -66,7 +71,7 @@ const changeText = function (obj) {
       textToChange.match(/I\.M\.|IM /gi) &&
       (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
-      obj.text = "RC " + objNr.join("-") + " MainSwitch";
+      obj.text = "rc" + objNr.join("-") + "MainSwitch";
       obj.changed = true;
     }
     // RC Brake
@@ -75,7 +80,7 @@ const changeText = function (obj) {
       textToChange.match(/Frein/gi) &&
       (textToChange.match(/\/1\s|\/1$/gi) || !textToChange.match(/\//gi))
     ) {
-      obj.text = "RC " + objNr.join("-") + " Brake";
+      obj.text = "rc" + objNr.join("-") + "Brake";
       obj.changed = true;
     }
     //Turn Thermal
@@ -85,7 +90,7 @@ const changeText = function (obj) {
       textToChange.match(/Therm/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Thermal";
+      obj.text = "turn" + objNr.join("-") + "Thermal";
       obj.changed = true;
     }
     //Turn Thermal
@@ -95,7 +100,7 @@ const changeText = function (obj) {
       textToChange.match(/Frein/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Brake";
+      obj.text = "turn" + objNr.join("-") + "Brake";
       obj.changed = true;
     }
     //Turn MainSwitch
@@ -105,7 +110,7 @@ const changeText = function (obj) {
       textToChange.match(/I\.M\.|IM /gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " MainSwitch";
+      obj.text = "turn" + objNr.join("-") + "MainSwitch";
       obj.changed = true;
     }
     // Turn stop 0°
@@ -114,7 +119,7 @@ const changeText = function (obj) {
       textToChange.match(/0°/gi) &&
       textToChange.match(/Rota/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Detection 0°";
+      obj.text = "turn" + objNr.join("-") + "Detection0";
       obj.changed = true;
     }
     // Turn slow down 0°
@@ -123,7 +128,7 @@ const changeText = function (obj) {
       textToChange.match(/0°/gi) &&
       textToChange.match(/Rota/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Detection slow down 0°";
+      obj.text = "turn" + objNr.join("-") + "DetectionSlowDown0";
       obj.changed = true;
     }
     // Turn stop 90°
@@ -132,7 +137,7 @@ const changeText = function (obj) {
       textToChange.match(/90°/gi) &&
       textToChange.match(/Rota/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Detection 90°";
+      obj.text = "turn" + objNr.join("-") + "Detection90";
       obj.changed = true;
     }
     // Turn slow down 90°
@@ -141,7 +146,7 @@ const changeText = function (obj) {
       textToChange.match(/90°/gi) &&
       textToChange.match(/Rota/gi)
     ) {
-      obj.text = "Turn " + objNr.join("-") + " Detection slow down 90°";
+      obj.text = "turn" + objNr.join("-") + "DetectionSlowDown90";
       obj.changed = true;
     }
     // Conveyor Estop
@@ -150,7 +155,7 @@ const changeText = function (obj) {
       textToChange.match(/Arre/gi) &&
       textToChange.match(/Urg/gi)
     ) {
-      obj.text = "RC " + objNr.join("-") + " Estop";
+      obj.text = "rc" + objNr.join("-") + "Estop";
       obj.changed = true;
     }
 
@@ -162,7 +167,7 @@ const changeText = function (obj) {
     ) {
       let dummyNumberRegex = /(?:\/)(\d*)/gi;
       let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
-      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " Thermal";
+      obj.text = "dummy" + objNr.join("-") + "-" + dummyNumber + "Thermal";
 
       obj.changed = true;
     }
@@ -174,7 +179,7 @@ const changeText = function (obj) {
     ) {
       let dummyNumberRegex = /(?:\/)(\d*)/gi;
       let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
-      obj.text = "Dummy " + objNr.join("-") + "-" + dummyNumber + " MainSwitch";
+      obj.text = "dummy" + objNr.join("-") +"-" + dummyNumber + "MainSwitch";
 
       obj.changed = true;
     }
@@ -184,7 +189,7 @@ const changeText = function (obj) {
       textToChange.match(/Therm|Alim/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Thermal";
+      obj.text = "lift" + objNr.join("-") + "Thermal";
 
       obj.changed = true;
     }
@@ -195,7 +200,7 @@ const changeText = function (obj) {
       textToChange.match(/^I\.M\.|^IM /gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " MainSwitch";
+      obj.text = "lift" + objNr.join("-") + "MainSwitch";
 
       obj.changed = true;
     }
@@ -206,7 +211,7 @@ const changeText = function (obj) {
       textToChange.match(/frein /gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Brake";
+      obj.text = "lift" + objNr.join("-") + "Brake";
 
       obj.changed = true;
     }
@@ -218,7 +223,7 @@ const changeText = function (obj) {
       textToChange.match(/bas/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " limit switch down";
+      obj.text = "lift" + objNr.join("-") + "LimitSwitchDown";
 
       obj.changed = true;
     }
@@ -229,7 +234,7 @@ const changeText = function (obj) {
       textToChange.match(/haut/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " limit switch up";
+      obj.text = "lift" + objNr.join("-") + "LimitSwitchUp";
 
       obj.changed = true;
     }
@@ -241,7 +246,7 @@ const changeText = function (obj) {
       textToChange.match(/haut/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Detection up";
+      obj.text = "lift" + objNr.join("-") + "DetectionUp";
 
       obj.changed = true;
     }
@@ -252,7 +257,7 @@ const changeText = function (obj) {
       textToChange.match(/bas/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Detection down";
+      obj.text = "lift" + objNr.join("-") + "DetectionDown";
 
       obj.changed = true;
     }
@@ -263,7 +268,7 @@ const changeText = function (obj) {
       textToChange.match(/haut/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Detection slow down up";
+      obj.text = "lift" + objNr.join("-") + "DetectionSlowDownUp";
 
       obj.changed = true;
     }
@@ -274,7 +279,7 @@ const changeText = function (obj) {
       textToChange.match(/Bas/gi) &&
       textToChange.match(/\/2\s|\/2$/gi)
     ) {
-      obj.text = "Lift " + objNr.join("-") + " Detection slow down down";
+      obj.text = "lift" + objNr.join("-") + "DetectionSlowDownDown";
 
       obj.changed = true;
     }
@@ -289,7 +294,7 @@ const changeText = function (obj) {
       let idRegex = /(\d{5})(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[2];
 
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Thermal";
+      obj.text = "hoist" + objNr.join("-") + "-" + id + "Thermal";
 
       obj.changed = true;
     }
@@ -303,7 +308,7 @@ const changeText = function (obj) {
     ) {
       let idRegex = /(\d{5})(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[2];
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " MainSwitch";
+      obj.text = "hoist" + objNr.join("-") + "-" + id + "MainSwitch";
 
       obj.changed = true;
     }
@@ -316,7 +321,7 @@ const changeText = function (obj) {
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[1];
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection up";
+      obj.text = "hoist" + objNr.join("-") + "-" + id + "DetectionUp";
 
       obj.changed = true;
     }
@@ -329,7 +334,7 @@ const changeText = function (obj) {
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[1];
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Detection down";
+      obj.text = "hoist" + objNr.join("-") + "-" + id + "DetectionDown";
 
       obj.changed = true;
     }
@@ -343,7 +348,7 @@ const changeText = function (obj) {
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[1];
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement up";
+      obj.text = "hoist" + objNr.join("-") + "-" + id + "MovementUp";
 
       obj.changed = true;
     }
@@ -357,7 +362,7 @@ const changeText = function (obj) {
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
       let id = idRegex.exec(textToChange)[1];
-      obj.text = "Hoist " + objNr.join("-") + "-" + id + " Movement down";
+      obj.text = "hoist" + objNr.join("_") + "-" + id + "MovementDown";
 
       obj.changed = true;
     }
@@ -367,7 +372,7 @@ const changeText = function (obj) {
   if (objPup) {
     // xpup push button
     if (textToChange.match(/Xpup/gi) && textToChange.match(/Command/gi)) {
-      obj.text = objPup + " Push button";
+      obj.text = objPup + "PushButton";
       obj.changed = true;
     }
     // xpup reset
@@ -376,7 +381,7 @@ const changeText = function (obj) {
       textToChange.match(/Res/gi) &&
       textToChange.match(/Def/gi)
     ) {
-      obj.text = objPup + " Reset";
+      obj.text = objPup + "Reset";
       obj.changed = true;
     }
     // wpup reset Safety
@@ -385,40 +390,41 @@ const changeText = function (obj) {
       textToChange.match(/Res/gi) &&
       textToChange.match(/Sec/gi)
     ) {
-      obj.text = objPup + " Reset Safety";
+      obj.text = objPup + "ResetSafety";
       obj.changed = true;
     }
     // xpup light reset safety
     if (
       textToChange.match(/Xpup/gi) &&
-      textToChange.match(/Lamp/g) &&
+      textToChange.match(/Lamp/gi) &&
       textToChange.match(/Res/gi) &&
       textToChange.match(/Sec/gi)
     ) {
-      obj.text = objPup + " Light reset safety";
+      obj.text = objPup + "LightResetSafety";
       obj.changed = true;
     }
     // xpup light reset fault
     if (
       textToChange.match(/Xpup/gi) &&
-      textToChange.match(/Lamp/g) &&
+      textToChange.match(/Lamp/gi) &&
       textToChange.match(/Def/gi)
     ) {
-      obj.text = objPup + " Light fault";
+      obj.text = objPup + "LightFault";
       obj.changed = true;
     }
-    // xpup light Auto
+    // xpup light 
+    console.log(textToChange)
     if (
       textToChange.match(/Xpup/gi) &&
-      textToChange.match(/Lamp/g) &&
+      textToChange.match(/Lamp/gi) &&
       textToChange.match(/Auto/gi)
     ) {
-      obj.text = objPup + " Light auto";
+      obj.text = objPup + "LightAuto";
       obj.changed = true;
     }
     // xpup horn
-    if (textToChange.match(/Xpup/gi) && textToChange.match(/Klax/g)) {
-      obj.text = objPup + " Horn";
+    if (textToChange.match(/Xpup/gi) && textToChange.match(/Klax/gi)) {
+      obj.text = objPup + "Horn";
       obj.changed = true;
     }
 
@@ -428,14 +434,13 @@ const changeText = function (obj) {
       textToChange.match(/Arre/gi) &&
       textToChange.match(/Urg/gi)
     ) {
-      obj.text = objPup + " Estop";
+      obj.text = objPup + "Estop";
       obj.changed = true;
     }
 
   }
 
   //console.log(obj)
-  obj.text = _.camelCase(obj.text)
   return obj;
 };
 
