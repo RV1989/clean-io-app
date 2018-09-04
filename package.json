@@ -1,6 +1,6 @@
 {
   "name": "clean-io-app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "RV1989",
   "description": "clean up io list for tia portal",
   "license": null,
@@ -63,6 +63,7 @@
     "electron-updater": "^2.21.10",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
+    "lodash": "^4.17.10",
     "vue": "^2.5.16",
     "vue-awesome": "^2.3.5",
     "vue-electron": "^1.0.6",

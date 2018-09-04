@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const xlsx = require("xlsx");
+const _ = require("lodash")
 
 //******** settings ***********************************************************
 
@@ -8,24 +9,8 @@ const ioPath = "IO Connect Rework";
 
 //*****************************************************************************
 
-const autoCase = function (text) {
-  return text.replace(/(&)?([a-z])([a-z]{2,})(;)?/gi, function (
-    all,
-    prefix,
-    letter,
-    word,
-    suffix
-  ) {
-    if (prefix && suffix) {
-      return all;
-    }
-
-    return letter.toUpperCase() + word.toLowerCase();
-  });
-};
 
 const changeText = function (obj) {
-  obj.text = autoCase(obj.text);
   let textToChange = obj.text;
   let objNr = textToChange.match(/[a-z]*\d{5}[a-z0-9_-]*/gi);
   let objPup = textToChange.match(/Xpup[a-z0-9/_-]*\S/gi);
@@ -450,6 +435,7 @@ const changeText = function (obj) {
   }
 
   //console.log(obj)
+  obj.text = _.camelCase(obj.text)
   return obj;
 };
 
