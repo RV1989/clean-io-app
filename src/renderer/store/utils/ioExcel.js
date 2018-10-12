@@ -166,7 +166,9 @@ const changeText = function (obj) {
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
       let dummyNumberRegex = /(?:\/)(\d*)/gi;
-      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      let regexRes = dummyNumberRegex.exec(textToChange)
+      let dummyNumber = ''
+      if (regexRes){dummyNumber = regexRes[1]}
       obj.text = "dummy" + objNr.join("-") + "-" + dummyNumber + "Thermal";
 
       obj.changed = true;
@@ -178,7 +180,9 @@ const changeText = function (obj) {
       (textToChange.match(/\//gi) && !textToChange.match(/\/1\s|\/1$/gi))
     ) {
       let dummyNumberRegex = /(?:\/)(\d*)/gi;
-      let dummyNumber = dummyNumberRegex.exec(textToChange)[1];
+      let regexRes = dummyNumberRegex.exec(textToChange)
+      let dummyNumber =''
+      if (regexRes){dummyNumber = regexRes[1]}
       obj.text = "dummy" + objNr.join("-") +"-" + dummyNumber + "MainSwitch";
 
       obj.changed = true;
@@ -292,7 +296,9 @@ const changeText = function (obj) {
       textToChange.match(/Therm/gi)
     ) {
       let idRegex = /(\d{5})(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[2];
+      let id = ''
+      let regexRes = idRegex.exec(textToChange)
+      if (regexRes){id = regexRes[2]}
 
       obj.text = "hoist" + objNr.join("-") + "-" + id + "Thermal";
 
@@ -307,7 +313,9 @@ const changeText = function (obj) {
 
     ) {
       let idRegex = /(\d{5})(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[2];
+      let id = ''
+      let regexRes = idRegex.exec(textToChange)
+      if (regexRes){id = regexRes[2]}
       obj.text = "hoist" + objNr.join("-") + "-" + id + "MainSwitch";
 
       obj.changed = true;
@@ -320,9 +328,10 @@ const changeText = function (obj) {
       textToChange.match(/haut/gi)
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[1];
+      let regexRes = idRegex.exec(textToChange)
+      let id = ''
+      if (regexRes){id = regexRes[1]}
       obj.text = "hoist" + objNr.join("-") + "-" + id + "DetectionUp";
-
       obj.changed = true;
     }
 
@@ -333,7 +342,9 @@ const changeText = function (obj) {
       textToChange.match(/bas/gi)
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[1];
+      let regexRes = idRegex.exec(textToChange)
+      let id = ''
+      if (regexRes){id = regexRes[1]}
       obj.text = "hoist" + objNr.join("-") + "-" + id + "DetectionDown";
 
       obj.changed = true;
@@ -347,7 +358,9 @@ const changeText = function (obj) {
       !textToChange.match(/desc/gi)
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[1];
+      let regexRes = idRegex.exec(textToChange)
+      let id = ''
+      if (regexRes){id = regexRes[1]}
       obj.text = "hoist" + objNr.join("-") + "-" + id + "MovementUp";
 
       obj.changed = true;
@@ -361,7 +374,9 @@ const changeText = function (obj) {
       textToChange.match(/desc/gi)
     ) {
       let idRegex = /(?:\/)(\d*)/gi;
-      let id = idRegex.exec(textToChange)[1];
+      let id = ''
+      let regexRes = idRegex.exec(textToChange)
+      if (regexRes){id = regexRes[1]}
       obj.text = "hoist" + objNr.join("_") + "-" + id + "MovementDown";
 
       obj.changed = true;
@@ -478,8 +493,13 @@ const readExcel = function (dir) {
           obj.capteur = cellCapteur.v.trim();
           obj.comment += " " + obj.capteur;
         }
-        obj = changeText(obj);
-        ioList.push(obj);
+        try {
+          obj = changeText(obj);
+          ioList.push(obj);
+        } catch (error) {
+          console.log(error)
+        }
+
       }
     }
   }
