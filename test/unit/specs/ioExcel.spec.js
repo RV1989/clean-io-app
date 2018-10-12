@@ -245,7 +245,7 @@ describe('changeText', () => {
         expect(changeText(obj).text).to.equal('hoist02020-2MovementUp')
     })
 
-    it('should return Hoist movement up', () => {
+    it('should return Hoist movement down', () => {
         let obj = {}
         obj.text = 'DESCENDRE ROULEAU CONVOYEUR 02020/2'
         expect(changeText(obj).text).to.equal('hoist02020-2MovementDown')
